@@ -1,11 +1,14 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import PaymentIncompleteModal from '../../components/PaymentIncompleteModal';
 
 export default function BankTransferPage() {
   const router = useRouter();
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [isPaymentComplete, setIsPaymentComplete] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleUploadClick = () => {
@@ -22,21 +25,69 @@ export default function BankTransferPage() {
   const handleSubmit = () => {
     if (uploadedFile) {
       console.log('Submitting transfer confirmation:', uploadedFile.name);
-      alert('Transfer confirmation submitted successfully!');
-      // Navigate to success page or home
-      router.push('/');
+      setIsPaymentComplete(true); // Mark payment as complete
+      // Navigate to KYC page for additional details
+      router.push('/kyc');
     }
   };
 
   const handleTransferLater = () => {
-    console.log('User chose to transfer later');
-    // Navigate to home or dashboard
-    router.push('/');
+    setShowPaymentModal(true);
+  };
+
+  const handleCloseAnyway = () => {
+    // Mark payment as complete to allow closing
+    setIsPaymentComplete(true);
+    setShowPaymentModal(false);
+    
+    // Close the browser tab/window
+    window.close();
+    
+    // Fallback: If window.close() doesn't work (e.g., not opened by script),
+    // navigate to My Investments page
+    setTimeout(() => {
+      console.log('User chose to close anyway');
+      router.push('/invest/my-investments');
+    }, 100);
+  };
+
+  const handleBackToPayment = () => {
+    setShowPaymentModal(false);
+  };
+
+  const handleCloseModal = () => {
+    setShowPaymentModal(false);
   };
 
   const handleBack = () => {
     router.back();
   };
+
+  // Handle browser tab close/refresh attempts
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      // Only show warning if payment is not complete
+      if (!isPaymentComplete) {
+        e.preventDefault();
+        // Modern browsers require returnValue to be set
+        e.returnValue = '';
+        
+        // Show our custom modal after a brief delay
+        // Note: The browser will show its own confirmation dialog first
+        setTimeout(() => {
+          setShowPaymentModal(true);
+        }, 100);
+        
+        return '';
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [isPaymentComplete]);
 
   return (
     <div className="min-h-screen bg-[#ededed]">
@@ -177,6 +228,14 @@ export default function BankTransferPage() {
           </div>
         </div>
       </div>
+
+      {/* Payment Incomplete Modal */}
+      <PaymentIncompleteModal
+        isOpen={showPaymentModal}
+        onClose={handleCloseModal}
+        onBackToPayment={handleBackToPayment}
+        onCloseAnyway={handleCloseAnyway}
+      />
     </div>
   );
 }

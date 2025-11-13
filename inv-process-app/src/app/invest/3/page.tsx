@@ -63,8 +63,8 @@ export default function CreditCardPaymentPage() {
       idNumber,
       cvv
     });
-    // Navigate to next page or show success message
-    alert('Payment processed successfully! (Prototype mode)');
+    // Navigate to KYC page for additional details
+    router.push('/kyc');
   };
 
   const handleBack = () => {

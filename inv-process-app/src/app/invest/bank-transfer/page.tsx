@@ -210,7 +210,12 @@ export default function BankTransferPage() {
           <div className="flex justify-end items-center gap-4 pt-4">
             <button
               onClick={handleTransferLater}
-              className="px-6 py-2 text-[#4a7bba] hover:text-[#3a6ba0] font-medium transition-colors"
+              disabled={!!uploadedFile}
+              className={`px-6 py-2 font-medium transition-colors ${
+                uploadedFile
+                  ? 'text-gray-400 cursor-not-allowed opacity-50'
+                  : 'text-[#4a7bba] hover:text-[#3a6ba0] cursor-pointer'
+              }`}
             >
               Transfer later
             </button>

@@ -50,7 +50,7 @@ export default function CloseModalConfirmation({
             onClick={onDeclareIncome}
             className="flex-1 px-6 py-3 bg-[#1e2d4f] text-white rounded hover:bg-[#2d3e60] font-medium transition-colors"
           >
-            Declare higher income
+            Back to declaration
           </button>
         </div>
       </div>

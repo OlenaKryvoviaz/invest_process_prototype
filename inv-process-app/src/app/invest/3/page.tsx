@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-export default function CreditCardPaymentPage() {
+function CreditCardPaymentPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   
@@ -304,12 +304,20 @@ export default function CreditCardPaymentPage() {
           <div className="text-sm text-gray-600 space-y-1">
             <p>* Can't pay with Diners card.</p>
             <p>
-              * Your credit card will only be charged when th company has attempted at least 100% of the minimum raising target.
+              * Your credit card will only be charged when the company has attempted at least 100% of the minimum raising target.
             </p>
           </div>
         </div>
       </div>
     </div>
+  );
+}
+
+export default function CreditCardPaymentPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#ededed] flex items-center justify-center">Loading...</div>}>
+      <CreditCardPaymentPageContent />
+    </Suspense>
   );
 }
 

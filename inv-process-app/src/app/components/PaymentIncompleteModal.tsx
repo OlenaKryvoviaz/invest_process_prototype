@@ -34,7 +34,7 @@ export default function PaymentIncompleteModal({
 
         <div className="space-y-4 mb-8">
           <p className="text-gray-700 leading-relaxed">
-            If you leave now, your payment status incomplete.
+            If you leave now, your payment status is incomplete.
           </p>
           
           <p className="text-gray-700 leading-relaxed">

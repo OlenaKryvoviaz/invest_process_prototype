@@ -1,10 +1,10 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import AnnualIncomeModal from '../../components/AnnualIncomeModal';
 
-export default function InvestConfirmPage() {
+function InvestConfirmPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -425,5 +425,13 @@ export default function InvestConfirmPage() {
         alreadyInvested={ALREADY_INVESTED}
       />
     </div>
+  );
+}
+
+export default function InvestConfirmPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#ededed] flex items-center justify-center">Loading...</div>}>
+      <InvestConfirmPageContent />
+    </Suspense>
   );
 }

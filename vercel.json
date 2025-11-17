@@ -1,0 +1,7 @@
+{
+  "buildCommand": "cd inv-process-app && npm run build",
+  "devCommand": "cd inv-process-app && npm run dev",
+  "installCommand": "cd inv-process-app && npm install",
+  "outputDirectory": "inv-process-app/.next"
+}
+

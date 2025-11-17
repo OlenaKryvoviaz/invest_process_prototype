@@ -1,8 +1,0 @@
-{
-  "buildCommand": "cd inv-process-app && npm run build",
-  "devCommand": "cd inv-process-app && npm run dev",
-  "installCommand": "cd inv-process-app && npm install",
-  "framework": "nextjs",
-  "outputDirectory": "inv-process-app/.next"
-}
-
